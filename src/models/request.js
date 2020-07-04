@@ -13,11 +13,13 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
+    config.withCredentials = true
     return config
   },
   error => {
     // do something with request error
     console.log(error) // for debug
+
     return Promise.reject(error)
   }
 )
@@ -35,7 +37,7 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    return response.data
+    return response
   },
   error => {
     const { status } = error.response
@@ -45,7 +47,6 @@ service.interceptors.response.use(
       const oldPath = window.location.hash.replace('#', '')
       router.push(`/login?redirect=${oldPath}`)
     }
-
     console.log('err' + error) // for debug
     if (status > 500) {
       Message({
@@ -54,7 +55,6 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
     }
-
     return Promise.reject(error)
   }
 )
