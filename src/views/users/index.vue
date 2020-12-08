@@ -1,14 +1,14 @@
 <template>
-  <div class="app-container">
+  <div class="components-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.filter.search" placeholder="Nhập từ ..." style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-select v-model="listQuery.filter.roles" placeholder="Chọn vai trò" class="filter-item" multiple clearable>
+      <el-input v-model="listQuery.filter.search" placeholder="Nhập từ ..." style="width: 200px; margin-left: 10px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-select v-model="listQuery.filter.roles" style="margin-left: 10px;" placeholder="Chọn vai trò" class="filter-item" multiple clearable>
         <el-option v-for="role in roleLists" :key="role.id" :label="role.name" :value="role.name" />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+      <el-button v-waves class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-search" @click="handleFilter">
         Lọc
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+      <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
         Tạo
       </el-button>
       <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
@@ -390,6 +390,11 @@ export default {
               message: 'Thêm mới thành công',
               type: 'success',
               duration: 2000
+            })
+          }).catch(error => {
+            const errors = error.response.data.errors
+            Object.keys(errors).forEach((key) => {
+              this.formErrors[key] = errors[key][0]
             })
           })
         }
