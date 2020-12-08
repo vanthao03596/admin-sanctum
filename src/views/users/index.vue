@@ -379,6 +379,7 @@ export default {
       })
     },
     createData() {
+      this.resetErrors()
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           createUser(this.temp).then((response) => {
