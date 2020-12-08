@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function fetchList(query) {
   return request({
-    url: '/api/users',
+    url: '/users',
     method: 'get',
     params: query
   })
@@ -10,21 +10,21 @@ export function fetchList(query) {
 
 export function fetchUser(id) {
   return request({
-    url: `/api/users/{id}`,
+    url: `/users/{id}`,
     method: 'get'
   })
 }
 
 export function fetchPv(pv) {
   return request({
-    url: '/api/users/pv',
+    url: '/users/pv',
     method: 'get'
   })
 }
 
 export function createUser(data) {
   return request({
-    url: '/api/users',
+    url: '/users',
     method: 'post',
     data
   })
@@ -32,7 +32,7 @@ export function createUser(data) {
 
 export function updateUser(id, data) {
   return request({
-    url: '/api/users/' + id,
+    url: '/users/' + id,
     method: 'put',
     data
   })
@@ -40,14 +40,14 @@ export function updateUser(id, data) {
 
 export function deleteUser(id) {
   return request({
-    url: '/api/users/' + id,
+    url: '/users/' + id,
     method: 'delete'
   })
 }
 
 export function fetchRoles(query) {
   return request({
-    url: '/api/roles',
+    url: '/roles',
     method: 'get',
     params: query
   })
@@ -55,7 +55,7 @@ export function fetchRoles(query) {
 
 export function fetchPermissions(query) {
   return request({
-    url: '/api/permissions',
+    url: '/permissions',
     method: 'get',
     params: query
   })
