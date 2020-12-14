@@ -2,22 +2,22 @@
 
 import Layout from '@/layout'
 
-const usersRouter = {
-  path: '/users',
+const housesRouter = {
+  path: '/houses',
   component: Layout,
   redirect: 'noRedirect',
   children: [
     {
       path: 'list',
-      component: () => import('@/views/users/index'),
-      name: 'Users',
+      component: () => import('@/views/houses/index'),
+      name: 'Houses',
       meta: {
-        title: 'Quản trị viên',
-        icon: 'users',
+        title: 'Danh sách nhà',
+        icon: 'house',
         noCache: true
       }
     }
   ]
 }
 
-export default usersRouter
+export default housesRouter

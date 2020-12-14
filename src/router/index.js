@@ -12,6 +12,7 @@ import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
 import userRouter from './modules/users'
+import houseRouter from './modules/houses'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -80,7 +81,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: 'Dashboard', icon: 'dashboard' }
       }
     ]
   },
@@ -92,7 +93,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation', affix: true }
+        meta: { title: 'Documentation', icon: 'documentation' }
       }
     ]
   },
@@ -191,6 +192,7 @@ export const asyncRoutes = [
   nestedRouter,
   tableRouter,
   userRouter,
+  houseRouter,
 
   {
     path: '/example',
