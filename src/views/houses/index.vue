@@ -5,15 +5,9 @@
       <el-select v-model="listQuery.filter.province_id" style="margin-left: 10px;" placeholder="Tỉnh thành phô" class="filter-item" filterable clearable>
         <el-option v-for="province in provinces" :key="province.id" :label="province.name_with_type" :value="province.id" />
       </el-select>
-      <el-button v-waves class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-search" @click="handleFilter">
-        Lọc
-      </el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
-        Tạo
-      </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
-        Xuất
-      </el-button>
+      <el-button v-waves class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-search" circle @click="handleFilter" />
+      <el-button class="filter-item" type="success" icon="el-icon-circle-plus" circle @click="handleCreate" />
+      <el-button v-waves :loading="downloadLoading" class="filter-item" type="info" icon="el-icon-download" circle @click="handleDownload" />
     </div>
 
     <el-table
@@ -74,9 +68,7 @@
 
       <el-table-column fixed="right" label="Thao tác" align="center" width="150" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            Sửa
-          </el-button>
+          <el-button type="primary" icon="el-icon-edit" circle @click="handleUpdate(row)" />
           <el-popconfirm
             confirm-button-text="OK"
             cancel-button-text="Hủy"
@@ -85,7 +77,7 @@
             title="Bạn có chắc muốn xóa không?"
             @onConfirm="handleDelete(row,$index)"
           >
-            <el-button slot="reference" size="mini" type="danger">Xoá</el-button>
+            <el-button slot="reference" type="danger" icon="el-icon-delete" circle />
           </el-popconfirm>
         </template>
       </el-table-column>
@@ -93,77 +85,45 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-drawer :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" custom-class="demo-drawer" size="40%">
-      <div class="demo-drawer__content">
-        <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="150px">
-          <el-form-item label="Tên" prop="name" :error="formErrors.name">
-            <el-input v-model="temp.name" />
-          </el-form-item>
-          <el-form-item label="Email" prop="email" :error="formErrors.email">
-            <el-input v-model="temp.email" type="email" />
-          </el-form-item>
-          <el-form-item label="Mật khẩu" prop="password" :required="dialogStatus==='create'?true:false" :error="formErrors.password">
-            <el-input v-model="temp.password" type="password" />
-          </el-form-item>
-          <el-form-item label="Nhập lại mật khẩu" prop="password_confirmation" :required="dialogStatus==='create'?true:false">
-            <el-input v-model="temp.password_confirmation" type="password" />
-          </el-form-item>
-        </el-form>
-        <div class="demo-drawer__footer">
-          <el-button @click="dialogFormVisible = false">
-            Hủy
-          </el-button>
-          <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
-            Chấp nhận
-          </el-button>
-        </div>
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-width="150px">
+        <el-form-item label="Tên" prop="name" :error="formErrors.name" placeholder="Nhập tên nhà">
+          <el-input v-model="temp.name" />
+        </el-form-item>
+        <el-form-item label="Loại nhà">
+          <el-select v-model="temp.name" placeholder="Chọn loại nhà">
+            <el-option label="Zone one" value="shanghai" />
+            <el-option label="Zone two" value="beijing" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Hình thức">
+          <el-select v-model="temp.name" placeholder="Chọn hình thức cho thuê">
+            <el-option label="Zone one" value="shanghai" />
+            <el-option label="Zone two" value="beijing" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Email" prop="email" :error="formErrors.email">
+          <el-input v-model="temp.email" type="email" />
+        </el-form-item>
+        <el-form-item label="Mật khẩu" prop="password" :required="dialogStatus==='create'?true:false" :error="formErrors.password">
+          <el-input v-model="temp.password" type="password" />
+        </el-form-item>
+        <el-form-item label="Nhập lại mật khẩu" prop="password_confirmation" :required="dialogStatus==='create'?true:false">
+          <el-input v-model="temp.password_confirmation" type="password" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          Hủy
+        </el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+          Thêm mới
+        </el-button>
       </div>
-    </el-drawer>
-
-    <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel" />
-        <el-table-column prop="pv" label="Pv" />
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">Confirm</el-button>
-      </span>
     </el-dialog>
   </div>
 </template>
 
-<style>
-.el-drawer__body {
-    padding: 20px !important;
-}
-
-.demo-drawer__content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-.demo-drawer__footer {
-    display: flex;
-}
-.demo-drawer__footer button {
-    flex: 1;
-}
-
-.demo-drawer__content form {
-    flex: 1;
-}
-
-.el-drawer > header > span:focus {
-outline-color: white;
-}
-.el-drawer > header > button:focus {
-outline-color: white;
-}
-.el-drawer > header > button:hover {
-color: rgb(64, 158, 255);
-}
-
-</style>
 <script>
 import { createUser, updateUser, deleteUser } from '@/api/users'
 import House from '@/models/House'
@@ -319,7 +279,7 @@ export default {
     },
     handleModifyStatus(row, status) {
       this.$message({
-        message: '操作Success',
+        message: 'Thành công',
         type: 'success'
       })
       row.status = status
